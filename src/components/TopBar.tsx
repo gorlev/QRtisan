@@ -17,8 +17,8 @@ export function TopBar({ onReset }: { onReset: () => void }) {
           aria-label={t('QRtisan — içeriğe geç', 'QRtisan — skip to content')}
           className="flex min-w-0 items-center gap-2 rounded-xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-lavender/25 max-lg:min-h-11 max-lg:min-w-11 max-lg:justify-center sm:gap-2.5"
         >
-          <img src="/favicon.svg" alt="" width="36" height="36" className="shrink-0 min-[480px]:hidden" />
-          <img src="/brand/qrtisan-horizontal.png" alt="QRtisan" width="2172" height="724" className="brand-horizontal hidden min-[480px]:block" />
+          <img src={import.meta.env.BASE_URL + "favicon.svg"} alt="" width="36" height="36" className="shrink-0 min-[480px]:hidden" />
+          <img src={import.meta.env.BASE_URL + "brand/qrtisan-horizontal.png"} alt="QRtisan" width="2172" height="724" className="brand-horizontal hidden min-[480px]:block" />
         </a>
 
         <div className="ml-auto flex min-w-0 items-center gap-1.5 sm:gap-2">

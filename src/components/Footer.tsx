@@ -9,7 +9,7 @@ export function Footer() {
   return (
     <footer className="border-t border-line bg-white/70">
       <div className="mx-auto flex max-w-[1240px] flex-col gap-3 px-4 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-        <img src="/brand/qrtisan-stacked.png" alt="QRtisan" width="1254" height="1254" loading="lazy" className="brand-stacked shrink-0 self-start sm:self-center" />
+        <img src={import.meta.env.BASE_URL + "brand/qrtisan-stacked.png"} alt="QRtisan" width="1254" height="1254" loading="lazy" className="brand-stacked shrink-0 self-start sm:self-center" />
         <div className="flex items-start gap-2.5 text-[12.5px] leading-relaxed text-ink-soft">
           <ShieldCheck size={15} className="mt-0.5 shrink-0 text-lavender" aria-hidden />
           <p className="max-w-[70ch]">
