@@ -4,6 +4,8 @@
 
 # QRtisan — Local QR Code Designer
 
+[Open app / Uygulamayı aç](https://gorlev.github.io/QRtisan/)
+
 [English](#english) · [Türkçe](#türkçe)
 
 ## English
