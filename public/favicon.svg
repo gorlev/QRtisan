@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="QRtisan">
+  <defs><linearGradient id="brand" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#00c9e9"/><stop offset=".5" stop-color="#315cff"/><stop offset="1" stop-color="#ad25f5"/></linearGradient></defs>
+  <style>
+    .qr-outline { stroke: #151925; }
+    .qr-module { fill: #151925; }
+    @media (prefers-color-scheme: dark) {
+      .qr-outline { stroke: #eeeaf8; }
+      .qr-module { fill: #eeeaf8; }
+    }
+  </style>
+  <path d="M43 55H18A10 10 0 0 1 8 45V18A10 10 0 0 1 18 8h27a10 10 0 0 1 10 10v25" fill="none" stroke="url(#brand)" stroke-width="5" stroke-linecap="round"/>
+  <g class="qr-outline" fill="none" stroke-width="4"><rect x="16" y="16" width="12" height="12" rx="3"/><rect x="35" y="16" width="12" height="12" rx="3"/><rect x="16" y="35" width="12" height="12" rx="3"/></g>
+  <g fill="url(#brand)"><rect x="20" y="20" width="4" height="4" rx="1"/><rect x="39" y="20" width="4" height="4" rx="1"/><rect x="20" y="39" width="4" height="4" rx="1"/><path d="m45 37 11 11a3 3 0 0 1 0 4l-4 4a3 3 0 0 1-4 0L37 45a3 3 0 0 1 0-4l4-4a3 3 0 0 1 4 0Zm12 17 4 7-7-4Z"/></g>
+  <path d="M33 32h6v6h-6zM29 28h5v5h-5zM30 43h5v6h-5z" class="qr-module"/>
+</svg>

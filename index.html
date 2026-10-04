@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#F5F6FA" />
+    <meta
+      name="description"
+      content="QRtisan — çerçeve, logo, renk ve şekil seçenekleriyle tarayıcınızda çalışan yerel QR kod tasarım tezgâhı. Verileriniz cihazınızdan çıkmaz."
+    />
+    <script>
+      // İlk boyamadan önce tema tercihini uygular: dış istek yok, yalnızca
+      // 'kare-theme' tercihi okunur (eski anahtar adı geriye dönük uyumluluk
+      // için korunur; mevcut tercihler sıfırlanmasın). QR içeriği/logo/tasarım
+      // asla okunmaz.
+      (function () {
+        try {
+          var preference = 'system';
+          try {
+            var stored = window.localStorage.getItem('kare-theme');
+            if (stored === 'light' || stored === 'dark' || stored === 'system') {
+              preference = stored;
+            }
+          } catch (error) {
+            /* depolama engelli: system varsayılanı */
+          }
+          var prefersDark = false;
+          try {
+            prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          } catch (error) {
+            /* matchMedia yok: açık tema */
+          }
+          var resolved = preference === 'system' ? (prefersDark ? 'dark' : 'light') : preference;
+          var root = document.documentElement;
+          root.setAttribute('data-theme', resolved);
+          root.setAttribute('data-theme-preference', preference);
+          root.style.colorScheme = resolved;
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', resolved === 'dark' ? '#12111D' : '#F5F6FA');
+        } catch (error) {
+          /* hiçbir durumda ilk boyamayı engelleme */
+        }
+      })();
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>QRtisan — Yerel QR Kod Tasarımcısı</title>
+    <script>
+      // İlk boyamadan önce dil meta verisini uygular: kayıtlı geçerli tercih
+      // varsa onu, yoksa sistem dilini (navigator.languages öncelik sırası)
+      // kullanır; desteklenmeyen sistem dilinde İngilizceye düşer. 'kare-locale'
+      // eski anahtar adıdır; geriye dönük uyumluluk için korunur. QR içeriği,
+      // logo ve tasarım asla okunmaz. Tema betiğine dokunmaz.
+      (function () {
+        try {
+          var locale = null;
+          try {
+            var stored = window.localStorage.getItem('kare-locale');
+            if (stored === 'tr' || stored === 'en') locale = stored;
+          } catch (error) {
+            /* depolama engelli: sistem diline düş */
+          }
+          if (!locale) {
+            var tags = [];
+            try {
+              if (navigator.languages && navigator.languages.length) {
+                tags = navigator.languages;
+              } else if (navigator.language) {
+                tags = [navigator.language];
+              }
+            } catch (error) {
+              /* navigator yok: İngilizce */
+            }
+            for (var i = 0; i < tags.length; i += 1) {
+              var primary = String(tags[i] || '')
+                .toLowerCase()
+                .split(/[-_]/)[0];
+              if (primary === 'tr' || primary === 'en') {
+                locale = primary;
+                break;
+              }
+            }
+            if (!locale) locale = 'en';
+          }
+          document.documentElement.lang = locale;
+          document.title =
+            locale === 'en'
+              ? 'QRtisan — QR Code Design in Your Browser'
+              : 'QRtisan — Tarayıcıda QR Kod Tasarımı';
+        } catch (error) {
+          /* hiçbir durumda ilk boyamayı engelleme */
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <!-- Recolor only neutral dark logo ink; preserve gradients and transparency. -->
+    <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true" style="position:absolute;pointer-events:none">
+      <defs>
+        <filter id="brand-dark-ink" color-interpolation-filters="sRGB">
+          <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1 -1 -1 0 1" />
+          <feComponentTransfer>
+            <feFuncA type="discrete" tableValues="0 1" />
+          </feComponentTransfer>
+          <feComposite in2="SourceAlpha" operator="in" result="ink" />
+          <feFlood flood-color="#eeeaf8" />
+          <feComposite in2="ink" operator="in" />
+          <feMerge><feMergeNode in="SourceGraphic" /><feMergeNode /></feMerge>
+        </filter>
+      </defs>
+    </svg>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,132 @@
+/**
+ * Canlı önizleme rayı düzeni (App sağ kolonu).
+ *
+ * Sorun: sağ kolonun grid öğesi `items-start` ile içerik yüksekliğinde kalıyordu;
+ * içindeki `lg:sticky` öğenin kapsayıcısı da aynı yükseklikte olduğu için sticky
+ * hareket edecek alan bulamıyordu. Ayrıca tüm rayı kaydırmak, dışa aktarmaya
+ * inildiğinde QR'ı görünmez kılıyordu ve sabit bir alt boşluk, sayfa sonunda
+ * rayı üst çubuğun altına itiyordu.
+ *
+ * Çözüm: App.tsx'te sarmalayıcı grid öğesi `lg:self-stretch` ile iki satırlık
+ * grid alanının tamamına yayılır. Ray, üst çubuğun gerçek alt kenarı ile
+ * kapsayıcı bloğun alt kenarından türetilen (useStickyRailHeight) kesin bir
+ * yükseklikle sticky kalır. İçerik bir flex yığınıdır: önizleme kartı esner,
+ * kompakt dışa aktarma altta sabitlenir. QR sahnesi asla kaymaz/kırpılmaz;
+ * tam eser mevcut alana oran korunarak sığdırılır. Uyarı açıklamaları açık
+ * görünür; uzun listeler kendi alanında kayar, QR sabit kalır.
+ *
+ * 64rem altında (mobil) sabit konum ve yükseklik sınırı yoktur: doğal akış
+ * korunur (mobil düzen ayrı bileşende yönetilir).
+ */
+
+.preview-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 0;
+}
+
+/*
+ * Mobilde sabit alt eylem çubuğu (dock) son içeriği/altbilgiyi kapatmasın
+ * diye kök düzen, dock yüksekliği + güvenli alan kadar alt boşluk bırakır.
+ * Masaüstünde bu sınıf eklenmez; düzen değişmez.
+ */
+.mobile-dock-clearance {
+  padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+}
+
+@media (max-width: 63.999rem) {
+  [data-testid='studio-grid'] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  [data-testid='studio-grid'] > * {
+    min-width: 0;
+  }
+}
+
+@media (min-width: 64rem) {
+  .preview-rail {
+    position: sticky;
+    top: var(--preview-rail-top, 5rem);
+    height: var(--preview-rail-height, auto);
+    gap: 0.75rem;
+    min-height: 0;
+    z-index: 10;
+  }
+
+  .preview-rail > .preview-card {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .preview-rail > .export-card {
+    flex: 0 0 auto;
+  }
+}
+
+/* Önizleme kartı: başlık + esnek gövde + tam uyarı listesi. */
+.preview-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.preview-card__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.preview-stage-area {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+}
+
+.preview-stage {
+  width: 100%;
+}
+
+/* Keep the artwork and export controls pinned even with warnings.
+ * Warnings stay expanded; only unusually long lists scroll independently. */
+@media (min-width: 64rem) {
+  .preview-warnings {
+    max-height: min(32vh, 15rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+
+/*
+ * Kısa masaüstü ekranlarında (ör. 1280×600) başlık/uyarı/dışa aktarma
+ * yoğunlaşır; böylece tam eser sayfa sonunda bile ~180px'in altına inmez.
+ * Açıklama sr-only olarak erişilebilir kalır.
+ */
+@media (min-width: 64rem) and (max-height: 700px) {
+  .preview-header {
+    padding-block: 0.25rem;
+  }
+
+  .preview-card__body {
+    padding-top: 0.25rem;
+  }
+
+  .preview-warnings {
+    padding-block: 0.125rem;
+    max-height: 20vh;
+  }
+
+  .export-details {
+    display: none;
+  }
+
+  .export-select {
+    padding-block: 0.5rem;
+    font-size: 13px;
+  }
+}

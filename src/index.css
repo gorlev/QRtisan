@@ -1,0 +1,396 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-canvas: #f5f6fa;
+  --color-panel: #ffffff;
+  --color-panel-raised: #ffffff;
+  --color-ink: #252338;
+  --color-ink-soft: #5f5c78;
+  --color-line: #e5e4ee;
+  --color-lavender: #8070d8;
+  --color-lavender-deep: #5b4bb8;
+  --color-lilac: #eae5fb;
+  --color-lilac-soft: #f5f2fd;
+  --color-mint: #b9e7d4;
+  --font-sans: 'Manrope Variable', 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+    color-scheme: light;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: 'ss01' on, 'cv11' on;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-lavender) 28%, #ffffff);
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #c9c6dd transparent;
+  }
+}
+
+/* Kart yüzeyi */
+.card {
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  border-radius: 24px;
+  box-shadow:
+    0 1px 2px rgba(37, 35, 56, 0.04),
+    0 24px 48px -34px rgba(37, 35, 56, 0.38);
+}
+
+/* Baskı provası sahnesi: ince nokta dokusu */
+.stage-dots {
+  background-color: #f7f5fe;
+  background-image: radial-gradient(circle at 1px 1px, rgba(128, 112, 216, 0.22) 1px, transparent 0);
+  background-size: 14px 14px;
+}
+
+/* Kayıt köşesi aksanları */
+.stage-corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  color: rgba(128, 112, 216, 0.5);
+}
+
+.stage-corner--tl {
+  top: 10px;
+  left: 10px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+  border-top-left-radius: 6px;
+}
+
+.stage-corner--tr {
+  top: 10px;
+  right: 10px;
+  border-top: 2px solid;
+  border-right: 2px solid;
+  border-top-right-radius: 6px;
+}
+
+.stage-corner--bl {
+  bottom: 10px;
+  left: 10px;
+  border-bottom: 2px solid;
+  border-left: 2px solid;
+  border-bottom-left-radius: 6px;
+}
+
+.stage-corner--br {
+  bottom: 10px;
+  right: 10px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+  border-bottom-right-radius: 6px;
+}
+
+/* Şeffaf zemin için dama deseni */
+.checker {
+  background-color: #ffffff;
+  background-image:
+    linear-gradient(45deg, #e9e7f3 25%, transparent 25%),
+    linear-gradient(-45deg, #e9e7f3 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #e9e7f3 75%),
+    linear-gradient(-45deg, transparent 75%, #e9e7f3 75%);
+  background-size: 16px 16px;
+  background-position:
+    0 0,
+    0 8px,
+    8px -8px,
+    -8px 0;
+}
+
+/* Renk seçici */
+input[type='color'].color-input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 36px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--color-line);
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type='color'].color-input::-webkit-color-swatch-wrapper {
+  padding: 3px;
+}
+
+input[type='color'].color-input::-webkit-color-swatch {
+  border: none;
+  border-radius: 7px;
+}
+
+input[type='color'].color-input::-moz-color-swatch {
+  border: none;
+  border-radius: 7px;
+}
+
+input[type='color'].color-input:focus-visible {
+  outline: 2px solid var(--color-lavender);
+  outline-offset: 2px;
+}
+
+/* Aralık kaydırıcı */
+.range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 22px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--color-line);
+}
+
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  margin-top: -7px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid var(--color-lavender);
+  box-shadow: 0 1px 4px rgba(37, 35, 56, 0.25);
+}
+
+.range::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--color-line);
+}
+
+.range::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid var(--color-lavender);
+}
+
+.range:focus-visible {
+  outline: 2px solid var(--color-lavender);
+  outline-offset: 4px;
+  border-radius: 999px;
+}
+
+.range:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Gizli radyo/checkbox içeren kartlarda klavye odağı */
+.has-focus-ring:has(:focus-visible) {
+  outline: 2px solid var(--color-lavender);
+  outline-offset: 2px;
+}
+
+/* Canlı rozetindeki nabız */
+.pulse-dot {
+  animation: pulse-dot 2.2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.82);
+  }
+}
+
+/* İçeriğe geç bağlantısı */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  left: 12px;
+  top: 12px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid var(--color-line);
+  box-shadow: 0 10px 24px -12px rgba(37, 35, 56, 0.4);
+  font-weight: 700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .pulse-dot {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Karanlık tema
+ *
+ * Jetonlar yalnızca arayüz yüzeylerini değiştirir. QR tuvalinin pikselleri,
+ * renk kutucuklarının gerçek renkleri ve dışa aktarılan görsel CSS'ten
+ * etkilenmez; bu bölümde tuval/swatch üzerine filtre veya ters çevirme
+ * uygulanmaz.
+ * ------------------------------------------------------------------------- */
+
+:root[data-theme='dark'] {
+  --color-canvas: #12111d;
+  --color-panel: #1a1828;
+  --color-panel-raised: #232135;
+  --color-ink: #eceaf7;
+  --color-ink-soft: #a09cc0;
+  --color-line: #34314d;
+  --color-lavender: #8f7ff0;
+  --color-lavender-deep: #beb2ff;
+  --color-lilac: #2b2746;
+  --color-lilac-soft: #211e34;
+  --color-mint: #3d8a72;
+
+  /* Tailwind varsayılan paletinden gelen uyarı/hata tonları */
+  --color-amber-50: #33270f;
+  --color-amber-100: #43331a;
+  --color-amber-200: #6b4e1f;
+  --color-amber-300: #8a6626;
+  --color-amber-500: #f0b64b;
+  --color-amber-900: #ffd899;
+  --color-red-50: #3a1c24;
+  --color-red-100: #4a222c;
+  --color-red-200: #6e3241;
+  --color-red-300: #8f4053;
+  --color-red-400: #b1546a;
+  --color-red-500: #f08a9b;
+  --color-red-600: #ff9fae;
+  --color-red-700: #ffb3bf;
+  --color-red-800: #ffc4cd;
+
+  color-scheme: dark;
+}
+
+/* Yükseltilmiş yüzeyler (bileşenlerdeki sabit `bg-white` sınıfları) */
+[data-theme='dark'] .bg-white {
+  background-color: var(--color-panel-raised);
+}
+
+/* Yarı saydam üst çubuk / alt bilgi / rozet yüzeyleri */
+[data-theme='dark'] .bg-white\/85 {
+  background-color: color-mix(in srgb, var(--color-panel) 86%, transparent);
+}
+
+[data-theme='dark'] .bg-white\/95 {
+  background-color: color-mix(in srgb, var(--color-panel-raised) 95%, transparent);
+}
+
+[data-theme='dark'] .bg-white\/70 {
+  background-color: color-mix(in srgb, var(--color-panel) 72%, transparent);
+}
+
+/* Logo/görsel önizleme çerçeveleri açık kalır: şeffaf veya koyu logo
+   varlıkları karanlık zeminde kaybolmasın. */
+[data-theme='dark'] span.bg-white:has(> img) {
+  background-color: #f4f3fa;
+}
+
+/* Switch topuzu her temada açık kalır (denetim göstergesi). */
+[data-theme='dark'] button[role='switch'] > span.bg-white {
+  background-color: #f7f6fc;
+}
+
+/* Ana eylem düğmesi karanlıkta yükseltilmiş mürekkep zeminini korur. */
+[data-theme='dark'] .bg-ink {
+  background-color: #3b3854;
+}
+
+[data-theme='dark'] .hover\:bg-\[\#312E4A\]:hover {
+  background-color: #4c4870;
+}
+
+/* Vurgu düğmesi: metin için `lavender-deep` açıldığından zemin hover'ı
+   ayrıca koyulaştırılır; beyaz metin okunur kalır. */
+[data-theme='dark'] .bg-lavender {
+  background-color: #6f5fd0;
+}
+
+[data-theme='dark'] .hover\:bg-lavender-deep:hover {
+  background-color: #5f4fc4;
+}
+
+/* Sabit hex renkleri */
+[data-theme='dark'] .text-\[\#1c6353\] {
+  color: #9be3c6;
+}
+
+[data-theme='dark'] .bg-\[\#2f9c7d\] {
+  background-color: #57c9a5;
+}
+
+/* Yerel select oku koyu zeminde açık çizilir (ThemeControl kendi ikonunu kullanır) */
+[data-theme='dark'] select.appearance-none:not(.theme-select) {
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%23cfcae8%27%20stroke-width%3D%272%27%3E%3Cpath%20d%3D%27m6%209%206%206%206-6%27/%3E%3C/svg%3E");
+}
+
+/* Kart ve sahne yüzeyleri */
+[data-theme='dark'] .card {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.4),
+    0 26px 52px -34px rgba(0, 0, 0, 0.85);
+}
+
+[data-theme='dark'] .stage-dots {
+  background-color: #171527;
+  background-image: radial-gradient(circle at 1px 1px, rgba(143, 127, 240, 0.22) 1px, transparent 0);
+}
+
+[data-theme='dark'] .stage-corner {
+  color: rgba(190, 178, 255, 0.55);
+}
+
+[data-theme='dark'] ::selection {
+  background: color-mix(in srgb, var(--color-lavender) 38%, #12111d);
+}
+
+[data-theme='dark'] * {
+  scrollbar-color: #4a4668 transparent;
+}
+
+[data-theme='dark'] .skip-link:focus {
+  background: var(--color-panel-raised);
+  color: var(--color-ink);
+}
+
+/* Preserve supplied artwork; dark mode replaces only its neutral dark ink. */
+.brand-horizontal { width: 190px; height: auto; max-width: 100%; border-radius: 12px; }
+.brand-stacked { width: 112px; height: 112px; border-radius: 16px; }
+html[data-theme='dark'] .brand-horizontal,
+html[data-theme='dark'] .brand-stacked { filter: url('#brand-dark-ink'); }

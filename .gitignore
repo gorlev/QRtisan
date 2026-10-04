@@ -1,0 +1,63 @@
+node_modules/
+dist/
+dist-ssr/
+coverage/
+
+# Test çıktıları
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Yerel araçlar
+.tmpcheck/
+graphify-out/
+.DS_Store
+*.local
+*.log
+.vite/
+*.tsbuildinfo
+
+# Sırlar / yerel ortam (örnek dosya hariç)
+.env
+.env.*
+!/.env.example
+.npmrc
+*.pem
+*.key
+*.p12
+*.pfx
+
+# SSH / imza özel anahtarları (genel anahtarlar *.pub hariç tutulmaz)
+id_rsa
+id_ed25519
+id_ecdsa
+id_dsa
+
+# Anahtar depoları ve kimlik bilgileri
+*.jks
+*.keystore
+.git-credentials
+.netrc
+.authinfo
+.envrc
+credentials.json
+service-account*.json
+.aws/
+
+# Ajan/araç yerel durumu
+/.claude/
+/.opencode/
+
+# Geçici yerel inceleme probları (yalnızca kök; kaynak değildir)
+/.review-probe-*/
+
+# Ham güvenlik/tarama raporları (yerelde kalır; yalnızca redakte özet paylaşılır)
+security-reports/
+raw-scan-reports/
+
+# Playwright MCP aracı
+.playwright-mcp/
+.playwright-cli/
+output/
+.firecrawl/
