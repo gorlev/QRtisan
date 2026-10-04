@@ -136,4 +136,4 @@ Open [localhost:4173/QRtisan/](http://localhost:4173/QRtisan/).
 
 ## License
 
-No project license has been selected yet. Dependencies retain their respective licenses.
+Licensed under the [MIT License](LICENSE). Dependencies retain their respective licenses.

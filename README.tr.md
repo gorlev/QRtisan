@@ -136,4 +136,4 @@ npm run preview
 
 ## Lisans
 
-Proje için henüz bir lisans seçilmedi. Bağımlılıklar kendi lisanslarına tabidir.
+Bu proje [MIT Lisansı](LICENSE) ile sunulur. Bağımlılıklar kendi lisanslarına tabidir.
